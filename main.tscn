@@ -1,0 +1,402 @@
+[gd_scene load_steps=23 format=3 uid="uid://co5xildmidwjv"]
+
+[ext_resource type="Script" uid="uid://c6rmvktbnhror" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dhascgbx8b3nr" path="res://scene/player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://beshwtbar4e86" path="res://scene/block.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bfvq6njq3p5q4" path="res://scripts/camera_3d.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://ck1ntsysv8g0u" path="res://scripts/label.gd" id="4_1bvp3"]
+[ext_resource type="FontFile" uid="uid://cxeh6l6o1l1lb" path="res://assets/main.otf" id="4_kek77"]
+[ext_resource type="AudioStream" uid="uid://ci7mlmin8dv7o" path="res://assets/sound/bgm.mp3" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://c0kg4tjvdphjy" path="res://icon.svg" id="5_w48qg"]
+[ext_resource type="AudioStream" uid="uid://ks2v8vpsxxdm" path="res://assets/sound/menumusic.mp3" id="6_7mycd"]
+[ext_resource type="Shader" uid="uid://5uhqoyf34e4i" path="res://scripts/main.gdshader" id="7_5vw27"]
+[ext_resource type="AudioStream" uid="uid://q41nh3bru1i2" path="res://assets/sound/speed.wav" id="10_4c57u"]
+[ext_resource type="AudioStream" uid="uid://2jyda0vwqltt" path="res://assets/sound/speed.mp3" id="11_efxa6"]
+[ext_resource type="AudioStream" uid="uid://bmsmdvi27cvns" path="res://assets/sound/win.wav" id="12_dg77c"]
+[ext_resource type="PackedScene" uid="uid://y6gaa57a0oyf" path="res://assets/loop.fbx" id="13_ycdy4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vw27"]
+shader = ExtResource("7_5vw27")
+shader_parameter/saturation = 0.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w48qg"]
+shader = ExtResource("7_5vw27")
+shader_parameter/saturation = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5vw27"]
+bg_color = Color(0, 1, 0, 0.298039)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w48qg"]
+bg_color = Color(0, 1, 0, 0.192157)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vivmo"]
+bg_color = Color(0, 1, 0, 0.588235)
+
+[sub_resource type="Environment" id="Environment_1bvp3"]
+background_mode = 3
+glow_enabled = true
+fog_light_color = Color(0, 1, 0, 1)
+fog_light_energy = 0.01
+
+[sub_resource type="LabelSettings" id="LabelSettings_5vw27"]
+font = ExtResource("4_kek77")
+font_size = 80
+font_color = Color(1.16476e-05, 0.865992, 1.54018e-06, 1)
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_w48qg"]
+font = ExtResource("4_kek77")
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_0xm2m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="gray" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_5vw27")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="high" type="ColorRect" parent="CanvasLayer"]
+visible = false
+material = SubResource("ShaderMaterial_w48qg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.0625
+anchor_bottom = 0.071875
+script = ExtResource("4_1bvp3")
+metadata/_edit_use_anchors_ = true
+
+[node name="score" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+offset_right = 79.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("4_kek77")
+text = "0"
+script = ExtResource("4_1bvp3")
+
+[node name="dash" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.735937
+anchor_top = 0.915625
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_5vw27")
+max_value = 60.0
+show_percentage = false
+metadata/_edit_use_anchors_ = true
+
+[node name="healthBar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -106.0
+offset_bottom = 27.0
+grow_horizontal = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_w48qg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vivmo")
+max_value = 5.0
+show_percentage = false
+
+[node name="health" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -58.0
+offset_top = 2.0
+offset_right = -18.0
+offset_bottom = 25.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("4_kek77")
+text = "0"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer/Control"]
+position = Vector2(571, 213)
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("5_w48qg")
+action = "right"
+visibility_mode = 1
+
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="CanvasLayer/Control"]
+position = Vector2(508, 215)
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("5_w48qg")
+action = "left"
+visibility_mode = 1
+
+[node name="head" type="Node3D" parent="."]
+process_mode = 1
+
+[node name="camera" type="Camera3D" parent="head"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.357, 1.28, 4)
+script = ExtResource("3_lquwl")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(9.14484e-07, 0.887663, 0, 1)
+light_energy = 16.0
+light_indirect_energy = 16.0
+light_size = 1.23
+omni_range = 4096.0
+
+[node name="player" parent="." instance=ExtResource("1_ig7tw")]
+process_mode = 1
+
+[node name="main" parent="." instance=ExtResource("3_h2yge")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1bvp3")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_272bh")
+volume_db = -9.333
+
+[node name="menu" type="CanvasLayer" parent="."]
+process_mode = 3
+
+[node name="Control" type="Control" parent="menu"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="play" type="Button" parent="menu/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.334375
+anchor_right = 0.232812
+anchor_bottom = 0.659375
+offset_left = 3.0
+offset_right = 3.0
+theme_override_fonts/font = ExtResource("4_kek77")
+theme_override_font_sizes/font_size = 50
+text = "play"
+
+[node name="tutorial" type="Button" parent="menu/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.240625
+anchor_top = 0.334375
+anchor_right = 0.526563
+anchor_bottom = 0.659375
+offset_right = -34.0003
+theme_override_fonts/font = ExtResource("4_kek77")
+theme_override_font_sizes/font_size = 50
+text = "tutorial"
+metadata/_edit_use_anchors_ = true
+
+[node name="exit" type="Button" parent="menu/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0046875
+anchor_top = 0.665625
+anchor_right = 0.232812
+anchor_bottom = 0.990625
+theme_override_fonts/font = ExtResource("4_kek77")
+theme_override_font_sizes/font_size = 50
+text = "exit"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="menu/Control"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 12.0
+offset_right = 341.0
+offset_bottom = 104.0
+text = "ATOM SMASHER"
+label_settings = SubResource("LabelSettings_5vw27")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="menu"]
+stream = ExtResource("6_7mycd")
+autoplay = true
+mix_target = 1
+parameters/looping = true
+
+[node name="Control2" type="Control" parent="menu"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="menu/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0901961, 0.0901961, 0.0901961, 0.941176)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="menu/Control2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.015625
+anchor_right = 0.882812
+anchor_bottom = 0.971875
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "you are a particle in a atom smasher 
+your goal is to reach light speed 
+to break out of the [b]INFINITE LOOP[/b]
+
+press [b]A,D[/b] or arrow keys to move left or right
+press [b] space or left mouse button [/b] to shoot
+press [b]W[/b] to use dash
+
+[b]collect hexagons to gain more score and dash energy
+destroy imperfect particles that come in your way to gain more score and dash energy
+hitting a imperfect particle will decrease your health
+if you lose all your health the game will be over
+using dash gives you speed bost for few seconds
+but you need to refill dash energy after use[/b]
+
+GOOD LUCK 
+
+
+
+
+
+
+
+
+
+
+"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="close" type="Button" parent="menu/Control2"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -57.0
+offset_bottom = 49.0
+grow_horizontal = 0
+text = "X"
+
+[node name="dash" type="Timer" parent="."]
+wait_time = 27.0
+one_shot = true
+
+[node name="end" type="CanvasLayer" parent="."]
+process_mode = 3
+visible = false
+
+[node name="Control" type="Control" parent="end"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="end/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -162.0
+offset_top = -110.0
+offset_right = 162.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_5vw27")
+
+[node name="playagain" type="Button" parent="end/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -3.0
+offset_right = 37.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_kek77")
+text = "play again"
+
+[node name="Label2" type="Label" parent="end/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25
+anchor_top = 0.69375
+anchor_right = 0.759375
+anchor_bottom = 0.846875
+grow_horizontal = 2
+grow_vertical = 2
+text = "thankes for playing the game
+made by hsn"
+label_settings = SubResource("LabelSettings_w48qg")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="dash2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_4c57u")
+volume_db = 8.0
+pitch_scale = 0.8
+
+[node name="outro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_efxa6")
+volume_db = 8.0
+pitch_scale = 0.8
+
+[node name="win" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_dg77c")
+
+[node name="loop" parent="." instance=ExtResource("13_ycdy4")]
+transform = Transform3D(1.01, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 436.44, -0.32, -15.793)
+visible = false
+
+[node name="tutorial" type="CanvasLayer" parent="."]
+layer = 10
+visible = false
+
+[connection signal="pressed" from="menu/Control/play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="menu/Control/tutorial" to="." method="_on_tutorial_pressed"]
+[connection signal="pressed" from="menu/Control/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="menu/Control2/close" to="." method="_on_close_pressed"]
+[connection signal="timeout" from="dash" to="." method="_on_dash_timeout"]
+[connection signal="pressed" from="end/Control/playagain" to="." method="_on_playagain_pressed"]

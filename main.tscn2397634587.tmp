@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://co5xildmidwjv"]
+
+[ext_resource type="Script" uid="uid://c6rmvktbnhror" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://dhascgbx8b3nr" path="res://scene/player.tscn" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://beshwtbar4e86" path="res://scene/block.tscn" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bfvq6njq3p5q4" path="res://camera_3d.gd" id="3_lquwl"]
+[ext_resource type="Script" uid="uid://ck1ntsysv8g0u" path="res://scripts/label.gd" id="4_1bvp3"]
+
+[sub_resource type="Environment" id="Environment_1bvp3"]
+background_mode = 3
+glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0, 1, 0, 1)
+fog_density = 0.0435
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_0xm2m")
+
+[node name="head" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.679071, 1.11397, 2.64767)
+script = ExtResource("3_lquwl")
+
+[node name="Node3D" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="main" parent="." instance=ExtResource("3_h2yge")]
+
+[node name="front" parent="." instance=ExtResource("3_h2yge")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -498)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1bvp3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("4_1bvp3")

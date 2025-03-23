@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://dgk2iva71quhd"]
+
+[ext_resource type="Script" uid="uid://cg0myop4dh575" path="res://scripts/enemy.gd" id="1_f87vc"]
+[ext_resource type="AudioStream" uid="uid://c3gxr6tc38py7" path="res://assets/sound/damage.wav" id="2_f87vc"]
+[ext_resource type="PackedScene" uid="uid://c8148shteik8l" path="res://assets/enemy.fbx" id="3_8u16h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b7koy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fbaj6"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_f87vc"]
+material = SubResource("StandardMaterial3D_fbaj6")
+radius = 0.063
+height = 0.125
+
+[node name="enemy" type="Node3D" groups=["enemy"]]
+script = ExtResource("1_f87vc")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0476074, 0.0754395, 0.0447998)
+shape = SubResource("BoxShape3D_b7koy")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_f87vc")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+emitting = false
+lifetime = 1.5
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_f87vc")
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+linear_accel_max = 1.0
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+hue_variation_max = 0.25
+
+[node name="enemy" parent="." instance=ExtResource("3_8u16h")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

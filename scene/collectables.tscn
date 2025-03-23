@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://djgjnhy3w4grk"]
+
+[ext_resource type="Script" uid="uid://ct5enins44baa" path="res://scripts/collectables.gd" id="1_fx8id"]
+[ext_resource type="AudioStream" uid="uid://oxlrwv00o74u" path="res://assets/sound/pickup.wav" id="2_fbaj6"]
+[ext_resource type="PackedScene" uid="uid://dr842ouf3osg5" path="res://assets/collect.fbx" id="3_021su"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_021su"]
+albedo_color = Color(0, 0.968393, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_fbaj6"]
+material = SubResource("StandardMaterial3D_021su")
+inner_radius = 0.25
+outer_radius = 0.5
+rings = 32
+ring_segments = 16
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_021su"]
+radius = 0.554912
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fbaj6"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_021su"]
+material = SubResource("StandardMaterial3D_fbaj6")
+radius = 0.063
+height = 0.125
+
+[node name="Collectables" type="Node3D" groups=["score"]]
+script = ExtResource("1_fx8id")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("TorusMesh_fbaj6")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_021su")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_fbaj6")
+volume_db = -4.0
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+visible = false
+emitting = false
+lifetime = 1.5
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+mesh = SubResource("SphereMesh_021su")
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+linear_accel_max = 1.0
+scale_amount_min = 0.5
+scale_amount_max = 2.0
+hue_variation_max = 0.25
+
+[node name="collect" parent="." instance=ExtResource("3_021su")]
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

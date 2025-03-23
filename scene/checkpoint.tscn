@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://du0my23d5nj6o"]
+
+[ext_resource type="Script" uid="uid://buruqxm5iquci" path="res://scripts/checkpoint.gd" id="1_rsc5n"]
+[ext_resource type="PackedScene" uid="uid://6ggreetqxmdg" path="res://assets/checkpoint.fbx" id="1_twgsb"]
+[ext_resource type="AudioStream" uid="uid://hp8keprc0u23" path="res://assets/sound/checkpoint.wav" id="3_1s6i5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ga3uu"]
+size = Vector3(10, 10, 1)
+
+[node name="Checkpoint" type="Node3D"]
+script = ExtResource("1_rsc5n")
+
+[node name="checkpoint" parent="." instance=ExtResource("1_twgsb")]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0328369, -0.0149994, 0)
+shape = SubResource("BoxShape3D_ga3uu")
+
+[node name="Checkpoint" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_1s6i5")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

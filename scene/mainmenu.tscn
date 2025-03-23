@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqm8i2kyui6uw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rry36"]
+font_size = 100
+
+[node name="Mainmenu" type="Node3D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.401235
+anchor_right = 0.314236
+anchor_bottom = 0.609568
+theme_override_font_sizes/font_size = 70
+text = "play"
+metadata/_edit_use_anchors_ = true
+
+[node name="Button2" type="Button" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00173611
+anchor_top = 0.757716
+anchor_right = 0.315972
+anchor_bottom = 0.966049
+theme_override_font_sizes/font_size = 70
+text = "exit"
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_top = 45.0
+offset_right = 564.0
+offset_bottom = 217.0
+text = "RECURSION"
+label_settings = SubResource("LabelSettings_rry36")

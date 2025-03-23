@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://beshwtbar4e86"]
+
+[ext_resource type="Script" uid="uid://cymotw8pqugiy" path="res://scripts/block.gd" id="1_osf0l"]
+[ext_resource type="PackedScene" uid="uid://bn7qswp6ql5qw" path="res://assets/block.fbx" id="2_osf0l"]
+[ext_resource type="PackedScene" uid="uid://x8u84x2sor53" path="res://assets/last.fbx" id="3_6p0n1"]
+
+[node name="Block" type="Node3D"]
+script = ExtResource("1_osf0l")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.83906, 0, -0.544039, 0, 1, 0, 0.544039, 0, 0.83906, 0.476676, 0, 3.36447)
+light_energy = 0.5
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.80213, 0, 0.597149, 0, 1, 0, -0.597149, 0, 0.80213, 0.476676, 0, 3.36447)
+light_energy = 0.5
+
+[node name="block" parent="." instance=ExtResource("2_osf0l")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="last" parent="." instance=ExtResource("3_6p0n1")]
+transform = Transform3D(2, 0, 0, 0, -2, -1.74846e-07, 0, 1.74846e-07, -2, 0, 0, 0.03545)
+visible = false

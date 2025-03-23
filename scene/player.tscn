@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://dhascgbx8b3nr"]
+
+[ext_resource type="Script" uid="uid://c7l1m6bnow6in" path="res://scripts/player.gd" id="1_4flbx"]
+[ext_resource type="AudioStream" uid="uid://c1caanysv06jw" path="res://assets/sound/shoot.wav" id="2_hjaqi"]
+[ext_resource type="AudioStream" uid="uid://bj7kw6t1xets8" path="res://assets/sound/lose.wav" id="3_fvtld"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sh265"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xo3ru"]
+albedo_color = Color(3.80233e-06, 0.921151, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0, 1, 0, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_4flbx"]
+material = SubResource("StandardMaterial3D_xo3ru")
+radius = 0.4
+height = 0.8
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hjaqi"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fvtld"]
+material = SubResource("StandardMaterial3D_hjaqi")
+size = Vector3(0.055, 0.3, 0.6)
+
+[sub_resource type="Curve" id="Curve_ct4mp"]
+_data = [Vector2(0, 0.984436), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_hp4bs"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g2vtq"]
+gradient = SubResource("Gradient_hp4bs")
+
+[node name="player" type="CharacterBody3D"]
+script = ExtResource("1_4flbx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sh265")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_4flbx")
+
+[node name="shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_hjaqi")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.684)
+amount = 30
+speed_scale = 3.0
+mesh = SubResource("BoxMesh_fvtld")
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 0, 6.65)
+linear_accel_max = 40.58
+scale_amount_curve = SubResource("Curve_ct4mp")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(-4.83011e-08, 0, 1, 0, 82.25, 0, -1.105, 0, -4.37114e-08, 0, 0, 1.62745)
+visible = false
+texture = SubResource("GradientTexture1D_g2vtq")
+
+[node name="lose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_fvtld")
+volume_db = 24.0
+
+[connection signal="finished" from="lose" to="." method="_on_lose_finished"]
